@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "description": "Add branch and commit buttons in azure web ui",
   "scripts": {
-    "build": "userscript-build --mode=dev",
+    "build:dev": "userscript-builder --mode=dev",
+    "build:prod": "userscript-builder --mode=bugfix",
     "prepare": "husky install",
-    "release": "userscript-builder --mode bugfix",
+    "release": "standard-version --commit-all",
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
     "test": "jest",
@@ -39,9 +40,14 @@
     ]
   },
   "lint-staged": {
-    "*.js": [
+    "src/**/*.js": [
       "eslint"
     ]
+  },
+  "standard-version": {
+    "scripts": {
+      "postbump": "npm run build:prod && git add dist/azure2git.user.js"
+    }
   },
   "userscript": {
     "entry": "./src/index.js",
